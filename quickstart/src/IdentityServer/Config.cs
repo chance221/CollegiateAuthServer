@@ -12,7 +12,8 @@ namespace IdentityServer
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
             { 
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
             };
 
         public static IEnumerable<ApiResource> Apis =>
@@ -48,6 +49,27 @@ namespace IdentityServer
                      It identifies your application to the identity server so that it knows which application is trying to connect to it.
 
                      */
+                },
+
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientSecrets = {new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireConsent = false,
+                    RequirePkce = true,
+
+                    RedirectUris = {"https://collegiate.site"},
+
+                    PostLogoutRedirectUris = {"https://collegiate.site"},
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServer4.IdentityServerConstants.StandardScopes.Profile
+
+                    }
                 }
             };
         
